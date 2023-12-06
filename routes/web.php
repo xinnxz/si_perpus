@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,7 @@ Route::middleware('auth')->group(function () {
     // Route::get('/role', function () {
     //     return view('welcome');
     // })->middleware(['role:mahasiswa']);
-    Route::view('/roles', 'role')->name('role')->middleware(['role:mahasiswa']);
+    Route::view('/roles', 'role')->name('role')->middleware(['role:admin']);
 });
 
 Route::get('/dashboard', function () {
@@ -35,5 +36,16 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::middleware('auth')->group(function () {
+    Route::get('/books', [BookController::class, 'index'])->name('book');
+    Route::get('/books/create', [BookController::class, 'create'])->name('book.create');
+    Route::post('/books', [BookController::class, 'store'])->name('book.store');
+});
+
+
+
+
+
 
 require __DIR__ . '/auth.php';

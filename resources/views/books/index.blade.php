@@ -6,10 +6,10 @@
     </x-slot>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflowhidden shadow-sm sm:rounded-lg">
+            <div class="bg-white light:bg-gray-800 overflowhidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray100">
-                    {{-- <x-primary-button tag="a" href="{{route('book.create')}}">Tambah Data Buku</x-primary-button>
-                    --}}
+                    <x-primary-button tag="a" href="{{route('book.create')}}">Tambah Data Buku</x-primary-button>
+
                     <br /><br />
                     <x-table>
                         <x-slot name="header">
@@ -40,10 +40,10 @@
                             </td>
                             <td>{{ $book->quantity }}</td>
                             <td>{{ $book->bookshelf->code }}-{{ $book->bookshelf->name }}</td>
-                            {{-- <td>
+                            <td>
                                 <x-primary-button tag="a" href="{{route('book.edit', $book->id)}}">Edit
                                 </x-primary-button>
-                            </td> --}}
+                            </td>
                             <x-danger-button x-data=""
                                 x-on:click.prevent="$dispatch('open-modal', 'confirm-book-deletion')"
                                 x-on:click="$dispatch('set-action', '{{route('book.destroy', $book->id) }}')">{{
