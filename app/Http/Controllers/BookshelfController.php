@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BookshelfExport;
+use App\Imports\BookshelfImport;
 use App\Models\Bookshelf;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BookshelfController extends Controller
 {
@@ -60,9 +64,33 @@ class BookshelfController extends Controller
 
         $book->delete();
         $notification = array(
-            'message' => 'Data buku berhasil dihapus',
+            'message' => 'Data buku bookshelf dihapus',
             'alert-type' => 'success'
         );
-        return redirect()->route('book')->with($notification);
+        return redirect()->route('bookshelf.index')->with($notification);
+    }
+
+    public function print(){
+        $data['bookshelves'] = Bookshelf::all();
+        $pdf = Pdf::loadView('bookshelves.print', $data);
+        return $pdf->download('bookshelves.pdf');
+    }
+
+    public function export(){
+        return Excel::download(new BookshelfExport, 'bookshelf.xlsx');
+    }
+
+    public function import(Request $req) {
+        $req->validate([
+            'file' => 'required|max:10000|mimes:xlsx,xls',
+        ]);
+
+        Excel::import(new BookshelfImport, $req->file('file'));
+
+        $notification = array(
+            'message' => 'Import data berhasil dilakukan',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('bookshelf.index')->with($notification);
     }
 }
