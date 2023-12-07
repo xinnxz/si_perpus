@@ -39,6 +39,8 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{id}', [BookshelfController::class, 'destroy'])->name('destroy');
             Route::get('/print', [BookshelfController::class, 'print'])->name('print');
             Route::get('/export', [BookshelfController::class, 'export'])->name('export');
+            Route::get('/import', [BookshelfController::class, 'import'])->name('import');
+            
         }
     );
 });
