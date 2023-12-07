@@ -1,59 +1,43 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Books') }}
+            {{ __('Bookshelf') }}
         </h2>
     </x-slot>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflowhidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray100">
-                    {{-- <x-primary-button tag="a" href="{{route('book.create')}}">Tambah Data Buku</x-primary-button>
-                    --}}
-                    <br /><br />
+                    <x-primary-button tag="a" href="{{route('bookshelf.create')}}">Create Data Bookshelf</x-primary-button>
                     <x-table>
                         <x-slot name="header">
                             <tr>
                                 <th>#</th>
-                                <th>Judul</th>
-                                <th>Penulis</th>
-                                <th>Tahun</th>
-                                <th>Penerbit</th>
-                                <th>Kota</th>
-                                <th>Cover</th>
-                                <th>Kuantitas</th>
-                                <th>Kode Rak</th>
-                                {{-- <th>Aksi</th> --}}
+                                <th>Code</th>
+                                <th>Name</th>
+                                <th>Action</th>
                             </tr>
                         </x-slot>
                         @php $num=1; @endphp
-                        @foreach($books as $book)
+                        @foreach($bookshelves as $bookshelf)
                         <tr>
                             <td>{{ $num++ }} </td>
-                            <td>{{ $book->title }}</td>
-                            <td>{{ $book->author }}</td>
-                            <td>{{ $book->year }}</td>
-                            <td>{{ $book->publisher }}</td>
-                            <td>{{ $book->city }}</td>
+                            <td>{{ $bookshelf->code }}</td>
+                            <td>{{ $bookshelf->name }}</td>
                             <td>
-                                <img src="{{ asset('storage/cover_buku/'.$book->cover) }}" width="100px" />
-                            </td>
-                            <td>{{ $book->quantity }}</td>
-                            <td>{{ $book->bookshelf->code }}-{{ $book->bookshelf->name }}</td>
-                            {{-- <td>
-                                <x-primary-button tag="a" href="{{route('book.edit', $book->id)}}">Edit
+                                <x-primary-button tag="a" href="{{route('bookshelf.edit', $bookshelf->id)}}">Edit
                                 </x-primary-button>
-                            </td> --}}
-                            {{-- <x-danger-button x-data=""
-                                x-on:click.prevent="$dispatch('open-modal', 'confirm-book-deletion')"
-                                x-on:click="$dispatch('set-action', '{{route('book.destroy', $book->id) }}')">{{
-                                __('Delete') }}</x-danger-button> --}}
-                            {{--
+                                <x-danger-button x-data=""
+                                x-on:click.prevent="$dispatch('open-modal', 'confirm-bookshelf-deletion')"
+                                x-on:click="$dispatch('set-action', '{{route('bookshelf.destroy', $bookshelf->id) }}')">{{
+                                __('Delete') }}</x-danger-button>
+                            </td>
                         </tr>
-                        @endforeach --}}
+                        @endforeach
                     </x-table>
 
-                    <x-modal name="confirm-book-deletion" focusable maxWidth="xl">
+
+                    <x-modal name="confirm-bookshelf-deletion" focusable maxWidth="xl">
                         <form method="post" x-bind:action="action" class="p-6">
                             @csrf
                             @method('delete')

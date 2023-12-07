@@ -1,9 +1,8 @@
 <?php
 
+use App\Http\Controllers\BookshelfController;
 use App\Http\Controllers\ProfileController;
-use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +23,21 @@ Route::middleware('auth')->group(function () {
     // Route::get('/role', function () {
     //     return view('welcome');
     // })->middleware(['role:mahasiswa']);
-    Route::view('/roles', 'role')->name('role')->middleware(['role:admin']);
+    Route::view('/roles', 'role')->name('role')->middleware(['role:mahasiswa']);
+    Route::group(
+        [
+            'middleware' => ['role:admin'],
+            'prefix' => 'bookshelf',
+            'as' => 'bookshelf.'
+        ],
+        function () {
+            Route::get('/', [BookshelfController::class, 'index'])->name('index');
+            Route::get('/create', [BookshelfController::class, 'create'])->name('create');
+            Route::post('/', [BookshelfController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [BookshelfController::class, 'edit'])->name('edit');
+            // Route::put('/update/{id}', [BookshelfController::class, 'update'])->name('update');
+        }
+    );
 });
 
 Route::get('/dashboard', function () {
@@ -36,16 +49,5 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-Route::middleware('auth')->group(function () {
-    Route::get('/books', [BookController::class, 'index'])->name('book');
-    Route::get('/books/create', [BookController::class, 'create'])->name('book.create');
-    Route::post('/books', [BookController::class, 'store'])->name('book.store');
-});
-
-
-
-
-
 
 require __DIR__ . '/auth.php';
