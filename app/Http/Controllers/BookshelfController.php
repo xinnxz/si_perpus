@@ -60,9 +60,9 @@ class BookshelfController extends Controller
 
         $book->delete();
         $notification = array(
-            'message' => 'Data buku berhasil dihapus',
+            'message' => 'Data buku bookshelf berhasil dihapus',
             'alert-type' => 'success'
         );
-        return redirect()->route('book')->with($notification);
+        return redirect()->route('bookshelf')->with($notification);
     }
 }
