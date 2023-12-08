@@ -19,6 +19,9 @@ class ProdiSeeder extends Seeder
                     'nama' => 'Informatika'
                 ],
                 [
+                    'nama' => 'Industri'
+                ],
+                [
                     'nama' => 'Sipil'
                 ]
             ]

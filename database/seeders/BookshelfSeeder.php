@@ -1,5 +1,7 @@
 <?php
 
+// database/seeders/BookshelfSeeder.php
+
 namespace Database\Seeders;
 
 use App\Models\Bookshelf;
@@ -12,28 +14,39 @@ class BookshelfSeeder extends Seeder
      */
     public function run(): void
     {
+        Bookshelf::create([
+            'code' => 'FIC',
+            'name' => 'Fiction',
+        ]);
 
-        Bookshelf::insert([
-            [
-                'id' => '1',
-                'code' => '620', 'name' => 'Engineering',
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'id' => '2',
-                'code' => '621',
-                'name' => 'Mechanical',
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'id' => '3',
-                'code' => '622',
-                'name' => 'Topoographical',
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
+        Bookshelf::create([
+            'code' => 'NFIC',
+            'name' => 'Non-Fiction',
+        ]);
+
+        Bookshelf::create([
+            'code' => 'SCI',
+            'name' => 'Science and Mathematics',
+        ]);
+
+        Bookshelf::create([
+            'code' => 'TECH',
+            'name' => 'Technology and Computer',
+        ]);
+
+        Bookshelf::create([
+            'code' => 'ART',
+            'name' => 'Art and Design',
+        ]);
+
+        Bookshelf::create([
+            'code' => 'BUS',
+            'name' => 'Business and Finance',
+        ]);
+
+        Bookshelf::create([
+            'code' => 'EDU',
+            'name' => 'Education',
         ]);
     }
 }

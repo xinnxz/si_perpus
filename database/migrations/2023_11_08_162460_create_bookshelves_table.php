@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('bookshelves', function (Blueprint $table) {
             $table->id();
-            $table->string('code', 15);
+            $table->string('code', 5);
             $table->string('name');
             $table->timestamps();
         });

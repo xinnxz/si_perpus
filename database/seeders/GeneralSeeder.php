@@ -23,18 +23,11 @@ class GeneralSeeder extends Seeder
             'name' => 'mahasiswa'
         ]);
 
-        $permission = Permission::create([
-            'name' => 'create'
-        ]);
-        $permission = Permission::create([
-            'name' => 'update'
-        ]);
-        $permission = Permission::create([
-            'name' => 'read'
-        ]);
-        $permission = Permission::create([
-            'name' => 'delete'
-        ]);
+        $permissions = ['create', 'update', 'read', 'delete'];
+
+        foreach ($permissions as $permissionName) {
+            Permission::create(['name' => $permissionName]);
+        }
 
         $mahasiswa = User::create([
             'name' => 'Mahasiswa 1',
@@ -44,8 +37,9 @@ class GeneralSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-        $mahasiswa->assignRole('mahasiswa');
 
+        $mahasiswa->assignRole('mahasiswa');
+        $mahasiswa->givePermissionTo('read');
 
         $admin = User::create([
             'name' => 'Admin',
@@ -57,11 +51,7 @@ class GeneralSeeder extends Seeder
         ]);
 
         $admin->assignRole('admin');
+        $admin->givePermissionTo($permissions);
 
-        $role_admin->givePermissionTo('read');
-        $role_admin->givePermissionTo('update');
-        $role_admin->givePermissionTo('delete');
-        $role_admin->givePermissionTo('create');
-        $role_mahasiswa->givePermissionTo('read');
     }
 }
