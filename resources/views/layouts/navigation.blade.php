@@ -47,28 +47,28 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
-                @hasrole('mahasiswa')
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('role')" :active="request()->routeIs('role')">
-                        {{ __('Role') }}
-                    </x-nav-link>
-                </div>
-                @endhasrole
                 @hasrole('admin')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('bookshelf.index')" :active="request()->routeIs('bookshelf.index')">
                         {{ __('Bookshelf') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.index')">
+                        {{ __('Category') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('book.index')" :active="request()->routeIs('book.index')">
+                        {{ __('Books') }}
+                    </x-nav-link>
+
                 </div>
                 @endhasrole
-                {{-- @hasrole('admin')
+
+                @hasrole('mahasiswa')
                 <div class=" hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('book')"
-                        :active="request()->routeIs('book') || request()->routeIs('book.create')">
-                        {{ __('Book') }}
+                    <x-nav-link :href="route('role')" :active="request()->routeIs('role')">
+                        {{ __('Role') }}
                     </x-nav-link>
                 </div>
-                @endhasrole --}}
+                @endhasrole
             </div>
 
             <!-- Settings Dropdown -->

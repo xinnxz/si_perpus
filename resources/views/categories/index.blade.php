@@ -1,61 +1,66 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Books') }}
+            {{ __('Category') }}
         </h2>
     </x-slot>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflowhidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray100">
-                <x-primary-button tag="a" href="{{route('book.create')}}">Create Data Book</x-primary-button>
-                    <x-primary-button tag="a" href="{{route('book.print')}}">Print</x-primary-button>
-                    <x-primary-button tag="a" href="{{route('book.export')}}">Export</x-primary-button>
+                    <x-primary-button tag="a" href="{{route('category.create')}}">Create Data Category</x-primary-button>
+                    <x-primary-button tag="a" href="{{route('category.print')}}">Print</x-primary-button>
+                    <x-primary-button tag="a" href="{{route('category.export')}}">Export</x-primary-button>
                     <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'import-book')">{{ __('Import Excel') }}</x-primary-button>
                     <x-table>
                         <x-slot name="header">
                             <tr>
                                 <th>#</th>
-                                <th>Judul</th>
-                                <th>Penulis</th>
-                                <th>Tahun</th>
-                                <th>Penerbit</th>
-                                <th>Kota</th>
-                                <th>Jumlah</th>
-                                <th>Category</th>
-                                <th>Rak Buku</th>
-                                <th>Gambar</th>
-                                <th>Aksi</th>
+                                <th>Name</th>
+                                <th>Action</th>
                             </tr>
                         </x-slot>
                         @php $num=1; @endphp
-                        @foreach($books as $book)
+                        @foreach($categories as $category)
                         <tr>
                             <td>{{ $num++ }} </td>
-                            <td>{{ $book->title }}</td>
-                            <td>{{ $book->author }}</td>
-                            <td>{{ $book->year }}</td>
-                            <td>{{ $book->publisher }}</td>
-                            <td>{{ $book->city }}</td>
-                            <td>{{ $book->quantity }}</td>
-                            <td>{{ $book->category->name }}</td>
-                            <td>{{ $book->bookshelf->code }} - {{ $book->bookshelf->name }}</td>
+                            <td>{{ $category->name }}</td>
                             <td>
-                                <img src="{{ asset('storage/cover_buku/'.$book->cover) }}" width="100px" />
-                            </td>
-                            <td>
-                                <x-primary-button tag="a" href="{{route('book.edit', $book->id)}}">Edit
+                                <x-primary-button tag="a" href="{{route('category.edit', $category->id)}}">Edit
                                 </x-primary-button>
                                 <x-danger-button x-data=""
-                                x-on:click.prevent="$dispatch('open-modal', 'confirm-book-deletion')"
-                                x-on:click="$dispatch('set-action', '{{route('book.destroy', $book->id) }}')">{{
+                                x-on:click.prevent="$dispatch('open-modal', 'confirm-category-deletion')"
+                                x-on:click="$dispatch('set-action', '{{route('category.destroy', $category->id) }}')">{{
                                 __('Delete') }}</x-danger-button>
                             </td>
                         </tr>
                         @endforeach
                     </x-table>
 
-                    <x-modal name="confirm-book-deletion" focusable maxWidth="xl">
+                    <x-modal name="import-book" focusable maxWidth="xl">
+                        <form method="post" action="{{ route('category.import') }}"
+                           class="p-6" enctype="multipart/form-data">
+                           @csrf
+                           <h2 class="text-lg font-medium text-gray-900 dark:text-gray100">
+                              {{ __('Import Data Buku') }}
+                           </h2>
+                           <div class="max-w-xl">
+                              <x-input-label for="cover" class="sr-only" value="File
+                                 Import"/>
+                              <x-file-input id="cover" name="file" class="mt-1 block wfull" required/>
+                           </div>
+                           <div class="mt-6 flex justify-end">
+                              <x-secondary-button x-on:click="$dispatch('close')">
+                                 {{ __('Cancel') }}
+                              </x-secondary-button>
+                              <x-primary-button class="ml-3">
+                                 {{ __('Upload') }}
+                              </x-primary-button>
+                           </div>
+                        </form>
+                     </x-modal>
+                     
+                    <x-modal name="confirm-category-deletion" focusable maxWidth="xl">
                         <form method="post" x-bind:action="action" class="p-6">
                             @csrf
                             @method('delete')

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Create Book') }}
+            {{ __('Book Create') }}
         </h2>
     </x-slot>
     <div class="py-12">
@@ -9,8 +9,7 @@
             <div class="bg-white dark:bg-gray-800 overflowhidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray100">
                     <!-- CONTENT HERE -->
-                    <form method="post" action="{{ route('book.store') }}" enctype="multipart/form-data"
-                        class="mt-6 space-y-6">
+                    <form method="post" action="{{ route('book.store') }}" class="mt-6 space-y-6">
                         @csrf
                         <div class="max-w-xl">
                             <x-input-label for="title" value="Judul" />
@@ -49,29 +48,42 @@
                             <x-input-error class="mt-2" :messages="$errors->get('quantity')" />
                         </div>
                         <div class="max-w-xl">
-                            <x-input-label for="bookshelf" value="Kategori RakBuku" />
-                            <x-select-input id="bookshelf" name="bookshelf_id" class="mt-1 block w-full" required>
-                                <option value="">Open this select menu</option>
-                                @foreach($bookshelves as $key => $value)
-                                @if(old('bookshelf_id') == $key)
-                                <option value="{{ $key }}" selected>{{$value }}</option>
+                            <x-input-label for="category_id" value="Kategori Buku" />
+                            <x-select-input id="category_id" name="category_id" class="mt-1 block w-full" required>
+                                <option value="">Pilih kategori</option>
+                                @foreach($categories as $category)
+                                @if(old('category_id') == $category->id)
+                                <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
                                 @else
-                                <option value="{{ $key }}">{{ $value}}</option>
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endif
                                 @endforeach
                             </x-select-input>
                         </div>
                         <div class="max-w-xl">
-                            <x-input-label for="cover" value="Halaman Sampul Depan" />
+                            <x-input-label for="bookshelf_id" value="Rak Buku" />
+                            <x-select-input id="bookshelf_id" name="bookshelf_id" class="mt-1 block w-full" required>
+                                <option value="">Pilih kategori</option>
+                                @foreach($bookshelves as $bookshelf)
+                                    @if(old('bookshelf_id') == $bookshelf->id)
+                                        <option value="{{ $bookshelf->id }}" selected>{{ $bookshelf->name }}</option>
+                                    @else
+                                        <option value="{{ $bookshelf->id }}">{{ $bookshelf->name }}</option>
+                                    @endif
+                                @endforeach
+                            </x-select-input>
+                        </div>
+                        <div class="max-w-xl">
+                            <x-input-label for="cover" value="Gambar" />
                             <x-file-input id="cover" name="cover" class="mt-1 block w-full" />
                             <x-input-error class="mt-2" :messages="$errors->get('cover')" />
                         </div>
-                        <x-secondary-button tag="a" href="{{
-        route('book')}}">Cancel</x-secondary-button>
-                        <x-primary-button name="save_and_create" value="true">Save & Create Another</x-primary-button>
-                        <x-primary-button name="save" value="true">Save</x- primary-button>
+
+                        <x-secondary-button tag="a" href="{{route('book.index')}}">Cancel</x-secondary-button>
+                        <x-primary-button name="save" value="true">Save</x-primary-button>
                     </form>
                 </div>
             </div>
         </div>
+    </div>
 </x-app-layout>

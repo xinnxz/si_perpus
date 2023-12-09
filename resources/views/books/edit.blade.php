@@ -9,10 +9,10 @@
             <div class="bg-white dark:bg-gray-800 overflowhidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray100">
                     <!-- CONTENT HERE -->
-                    <form method="post" action="{{ route('book.update', $book->id) }}"
+                    <form method="post" action="{{ route('book.update', $book->id) }}" 
                         class="mt-6 space-y-6">
                         @csrf
-                        @method('PATCH')
+                        @method('PUT')
                         <div class="max-w-xl">
                             <x-input-label for="title" value="Judul" />
                             <x-text-input id="title" type="text" name="title" class="mt-1 block w-full"
@@ -50,26 +50,37 @@
                             <x-input-error class="mt-2" :messages="$errors->get('quantity')" />
                         </div>
                         <div class="max-w-xl">
-                            <x-input-label for="bookshelf" value="Kategori RakBuku" />
-                            <x-select-input id="bookshelf" name="bookshelf_id" class="mt-1 block w-full" required>
-                                <option value="">Open this select menu</option>
-                                @foreach($bookshelves as $key => $value)
-                                @if(old('bookshelf_id', $book->bookshelf_id)== $key)
-                                <option value="{{ $key }}" selected>{{
-                                    $value }}</option>
-                                @else
-                                <option value="{{ $key }}">{{$value}}</option>
-                                @endif
+                            <x-input-label for="category_id" value="Kategori Buku" />
+                            <x-select-input id="category_id" name="category_id" class="mt-1 block w-full" required>
+                                <option value="">Pilih kategori</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ old('category_id', $book->category_id) == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
                                 @endforeach
                             </x-select-input>
                         </div>
+
+                        <div class="max-w-xl">
+                            <x-input-label for="bookshelf_id" value="Rak Buku" />
+                            <x-select-input id="bookshelf_id" name="bookshelf_id" class="mt-1 block w-full" required>
+                                <option value="">Pilih rak buku</option>
+                                @foreach($bookshelves as $bookshelf)
+                                    <option value="{{ $bookshelf->id }}" {{ old('bookshelf_id', $book->bookshelf_id) == $bookshelf->id ? 'selected' : '' }}>
+                                        {{ $bookshelf->name }}
+                                    </option>
+                                @endforeach
+                            </x-select-input>
+                        </div>
+
                         <div class="max-w-xl">
                             <x-input-label for="cover" value="Halaman Sampul Depan" />
                             <x-file-input id="cover" name="cover" class="mt-1 block w-full" />
                             <x-input-error class="mt-2" :messages="$errors->get('cover')" />
                             <x-text-input type="hidden" name="old_cover" value="{{ $book->cover }}" />
                         </div>
-                        <x-secondary-button tag="a" href="{{route('book')}}">Cancel</x-secondary-button>
+                        
+                        <x-secondary-button tag="a" href="{{route('book.index')}}">Cancel</x-secondary-button>
                         <x-primary-button value="true">Update</x-primary-button>
                     </form>
                 </div>
