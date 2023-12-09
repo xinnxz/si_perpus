@@ -36,9 +36,9 @@
                <td>{{ $book->year }}</td>
                <td>{{ $book->publisher }}</td>
                <td>{{ $book->city }}</td>
-               <td>
+               <!-- <td>
                   <img src="{{ asset('storage/cover_buku/'.$book->cover) }}" width="100px" />
-               </td>
+               </td> -->
                <td>{{ $book->quantity }}</td>
                <td>{{ $book->bookshelf->name }}</td>
                <td>{{ $book->category->name }}</td>
